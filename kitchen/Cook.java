@@ -26,16 +26,6 @@ public class Cook extends Observable implements Runnable{
         this.queue = queue;
     }
 
-    /*    @Override
-    public void update(Observable o, Object arg) {//o - tablet, arg - order
-        ConsoleHelper.writeMessage(String.format("Start cooking - %s, cooking time %smin", arg, ((Order) arg).getTotalCookingTime()));
-        setChanged();
-        notifyObservers(arg);
-        EventDataRow event = new CookedOrderEventDataRow(o.toString(), this.name, ((Order) arg).getTotalCookingTime() * 60, ((Order) arg).getDishes());
-        StatisticManager.getInstance().register(event);//регистрация события для повара во время приготовления еды
-    }*/
-
-    //заменили этим методо update, т.к. поменяли логику повар больше не Observer. Раньше он напрямую следил за планшетом.
     public void startCookingOrder(Order order) {
         busy = true;
         ConsoleHelper.writeMessage(String.format("Start cooking - %s, cooking time %smin", order, order.getTotalCookingTime()));
@@ -55,10 +45,8 @@ public class Cook extends Observable implements Runnable{
                     while (queue.isEmpty())
                         Thread.sleep(10);
                     if (!this.isBusy())
-                        //new Thread(() -> {
-                            if (!queue.isEmpty())
-                                this.startCookingOrder(queue.poll());
-                        //}).start();
+                         if (!queue.isEmpty())
+                             this.startCookingOrder(queue.poll());
                 }
             } catch (InterruptedException ignored) {
             }
