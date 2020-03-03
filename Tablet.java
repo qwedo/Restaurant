@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class Tablet{
     private final int number;
-    private static Logger logger = Logger.getLogger(Tablet.class.getName());//нужно для того, чтобы узнать причину возникновения исключения при работе с консолью(когда наше приложение умрет)
+    private static Logger logger = Logger.getLogger(Tablet.class.getName());//чтобы узнать причину возникновения исключения при работе с консолью(когда наше приложение умрет)
     private LinkedBlockingQueue<Order> queue = new LinkedBlockingQueue<>();
 
     public Tablet(int number) {
@@ -31,7 +31,7 @@ public class Tablet{
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Console is unavailable.");
         }
-        return order;//возвращаем null(по условию 3 задачи), если не удалось создать заказ(возникло исключение в new Order)
+        return order;//возвращаем null, если не удалось создать заказ(возникло исключение в new Order)
     }
 
     public void createTestOrder(){
@@ -47,12 +47,10 @@ public class Tablet{
     private void processOrder(Order order) {
         if (!order.isEmpty()) { //если заказ пустой, то не передаем его повару
             ConsoleHelper.writeMessage(order.toString());
-            //setChanged();//устанавливаем метку, что Observable-объект(Tablet) был изменен
-            //notifyObservers(order);//отправляем уведомления Observer-ам(Cook(изначально, позже OrderManager)), что Observable-объект(Tablet) был изменен. У Observer-объекта(Cook) вызываем update. Снимаем метку, что объект(Tablet) был изменен.
             queue.add(order);
             AdvertisementManager advertisementManager = new AdvertisementManager(order.getTotalCookingTime() * 60);//после того, как создался заказ, запускаем рекламу, которая будет показываться, пока заказ готовится.
             try {
-                advertisementManager.processVideos();//Возможно нужно будет запускать processVideos через нить, как просили в условии 8 задачи. Дмитрий Шалухов в обсуждении приводил код, как это можно будет сделать.
+                advertisementManager.processVideos();
             } catch (RuntimeException e) {
                 logger.log(Level.INFO, "No video is available for the order " + order);
             }
