@@ -37,7 +37,6 @@ public class ConsoleHelper {
             if (!enumContain)
                 writeMessage("Такого блюда нет.");
         }
-
         return result;
     }
 }
