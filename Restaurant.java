@@ -19,15 +19,10 @@ public class Restaurant {
         cook2.setQueue(orderQueue);
         new Thread(cook1).start();
         new Thread(cook2).start();
-        //StatisticManager.getInstance().register(cook1);
-        //StatisticManager.getInstance().register(cook2);
         List<Tablet> tablets = new ArrayList<>();
-        //OrderManager orderManager = new OrderManager();
         for (int i = 0; i < 5; i++) {
             Tablet tablet = new Tablet(i);
             tablet.setQueue(orderQueue);
-            //tablet.addObserver(orderManager);
-            //tablet.addObserver(orderManager);
             tablets.add(tablet);
         }
 
